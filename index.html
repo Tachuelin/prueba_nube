@@ -7,10 +7,15 @@
         var wsUri = "ws:";
         var loc = window.location;
         console.log(loc);
-        if (loc.protocol === "https:") { wsUri = "wss:"; }
-        // This needs to point to the web socket in the Node-RED flow
-        // ... in this case it's ws/simple
-        wsUri += "//" + loc.host + loc.pathname.replace("https://envio-datos-plc.azurewebsites.net/","ws://envio-datos-plc.azurewebsites.net/");
+        
+var loc = window.location, new_uri;
+if (loc.protocol === "https:") {
+    new_uri = "wss:";
+} else {
+    new_uri = "ws:";
+}
+new_uri += "//" + loc.host;
+new_uri += loc.pathname + "/to/ws";
 
         function wsConnect() {
             console.log("connect",wsUri);
@@ -48,7 +53,7 @@
     </head>
     <body onload="wsConnect();" onunload="ws.disconnect();">
         <font face="Arial">
-        <h1>Sensor Inductivo 2.0</h1>
+        <h1>Sensor Inductivo 2.1</h1>
         <div id="messages"></div>
         <button type="button" onclick='doit("click");'>Click to send message</button>
         <hr/>
